@@ -105,3 +105,11 @@ We can send mining task. We have the notion of mining power and mining
 difficulty.
 
 To split concern, we create a new queue and implement a new worker.
+
+
+## Manage failure
+
+Let's change our stupid worker to create some failure: if the mining power is
+too low for the current difficulty we raise.
+
+We see the task fail and is removed.

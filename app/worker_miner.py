@@ -2,6 +2,14 @@ import time
 from celery import Celery
 
 
+class CryptoException(Exception):
+    pass
+
+
+class MiningException(CryptoException):
+    pass
+
+
 def init_celery():
     config = {"broker_url": "amqp://guest:guest@rabbitmq:5672/"}
     celery = Celery()
@@ -21,5 +29,8 @@ def mine(self, blockchain, *args, difficulty=1, **kwargs):
     print(">>>>")
     print(f"mine on {blockchain} power={power} difficulty={difficulty}")
     print("<<<<")
+
+    if power < difficulty:
+        raise MiningException
 
     time.sleep(5)
