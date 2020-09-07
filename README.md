@@ -43,3 +43,43 @@ a very interesting call to `sleep`).
 It's not something we want to do, the page is frozen (see spinner) and the
 webserver is stuck processing this request.
 
+
+## Add some celery
+
+In the flask app, we create a celery object. We need to specify a "broker_url",
+here rabbitmq.
+
+We also need to create a mapping between task and route. I defined a `say_hello`
+task that will be route to the `hello_queue` queue
+
+We configure a new worker in supervisord to manage those task. -Q say on which
+queue the worker listen.
+
+We implement the worker, it uses a celery object as well (here there is no need
+for `task_routes` as this worker do not send tasks.)
+
+The decorator have `bind=True` as parameter, this make the first parameter of
+the function be the current task (here we are not in a class!)
+
+We can click on the button, and we see the webpage is more responsive. The
+"hello" log is in a celery context.
+
+On interesting thing is the rabbitmq management interface http://localhost:15672
+
+We see the queue automatically created.
+
+When we create a lot of request, we can see them pile up in the queue.
+
+What happen if the worker stop?
+
+```
+docker-compose exec app supervisorctl stop worker_hello
+```
+
+We see only flask log. Task pile up in queue
+
+```
+docker-compose exec app supervisorctl start worker_hello
+```
+
+Task are proceed
