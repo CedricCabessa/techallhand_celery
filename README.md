@@ -96,3 +96,12 @@ different life cycle.
 ## Future proof signature
 
 Write function that can accept any kind of data without crashing
+
+## Mining!
+
+Let's have some fun and make a bitcoin mining simulator !
+
+We can send mining task. We have the notion of mining power and mining
+difficulty.
+
+To split concern, we create a new queue and implement a new worker.

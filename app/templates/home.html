@@ -9,5 +9,19 @@
         <button>hello</button>
       </form>
     </div>
+    <h2>do some mining</h2>
+    <div>
+      <form action="/mine" method="POST">
+        <label>blockchain</label> <input name="blockchain" id="blockchain" value="btc"><br>
+        <label>difficulty</label> <input name="difficulty" id="difficulty" value="{{session.get('difficulty', 3)}}"><br>
+        <button>mine</button>
+      </form>
+    </div>
+    <div>
+      <form action="/power" method="POST">
+        <input name="power" id="power" value="{{power}}">
+        <button>update power</button>
+      </form>
+    </div>
   </body>
 </html>
