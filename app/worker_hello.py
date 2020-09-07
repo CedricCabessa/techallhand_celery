@@ -14,6 +14,6 @@ celery = init_celery()
 
 
 @celery.task(name="say_hello", bind=True)
-def hello(self):
+def hello(self, name, *args, **kwargs):
     time.sleep(5)
-    print("hello")
+    print(f"hello {name}")

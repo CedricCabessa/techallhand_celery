@@ -92,3 +92,7 @@ Celery use a RPC pattern, so we need to take care of signature.
 
 This is important when producer and consumer run on different machines and have
 different life cycle.
+
+## Future proof signature
+
+Write function that can accept any kind of data without crashing
