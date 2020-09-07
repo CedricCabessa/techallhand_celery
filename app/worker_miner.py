@@ -21,13 +21,22 @@ def init_celery():
 celery = init_celery()
 
 
-@celery.task(name="mine", bind=True)
+@celery.task(
+    name="mine",
+    autoretry_for=(CryptoException,),
+    retry_backoff=2,
+    retry_jitter=True,
+    retry_kwargs={"max_retries": 5},
+    bind=True,
+)
 def mine(self, blockchain, *args, difficulty=1, **kwargs):
     with open("power.txt") as f:
         power = int(f.readline().strip())
 
     print(">>>>")
-    print(f"mine on {blockchain} power={power} difficulty={difficulty}")
+    print(
+        f"mine on {blockchain} power={power} difficulty={difficulty}, retries={self.request.retries}"
+    )
     print("<<<<")
 
     if power < difficulty:

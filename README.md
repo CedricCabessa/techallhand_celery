@@ -113,3 +113,19 @@ Let's change our stupid worker to create some failure: if the mining power is
 too low for the current difficulty we raise.
 
 We see the task fail and is removed.
+
+## Retry
+
+Celery can manage retry for us easily.
+
+We just need to list all the exception we want to retry and parameterize how the
+retry should be done.
+
+Here we have 5 retry with an exponential backoff (`retry_backoff`) and some
+randomness (`retry_jitter`)
+
+We can see the task are stored in the rabbitmq until finished.
+
+After retry, the last exception is raised.
+
+The `self` parameter let us inspect the current task
