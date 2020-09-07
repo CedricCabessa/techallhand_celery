@@ -83,3 +83,12 @@ docker-compose exec app supervisorctl start worker_hello
 ```
 
 Task are proceed
+
+## Beware of signature
+
+We just add an argument in our task ... and it fails.
+
+Celery use a RPC pattern, so we need to take care of signature.
+
+This is important when producer and consumer run on different machines and have
+different life cycle.

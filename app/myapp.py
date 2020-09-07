@@ -1,5 +1,5 @@
 from celery import Celery
-from flask import Flask, redirect, url_for, render_template
+from flask import Flask, redirect, request, url_for, render_template
 
 app = Flask(__name__)
 
@@ -28,5 +28,6 @@ def home():
 
 @app.route("/hello", methods=["POST"])
 def hello():
-    celery.send_task(name="say_hello")
+    name = request.form.get("name")
+    celery.send_task(name="say_hello", args=(name,))
     return redirect(url_for("home"))
